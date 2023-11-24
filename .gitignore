@@ -15,6 +15,9 @@ downloads/
 eggs/
 .eggs/
 venv/
+datasets/
+models/
+test_imgs/
 lib/
 lib64/
 parts/
