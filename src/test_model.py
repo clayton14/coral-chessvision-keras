@@ -1,23 +1,34 @@
 import cv2 as cv
 import matplotlib.pyplot as plt
-import utils as utl
+import src.utils as utl
 import numpy as np
-from torch import nn
-import torch.onnx
-import os
+import torch
+import os, onnx
+from ultralytics import YOLO
+from PIL import Image
 
 
 MODLES = os.listdir(utl.get_modles_dir())
-print(MODLES)
+# print(MODLES)
 
+def test_image():
+    model = YOLO(os.path.join(utl.get_modles_dir(), MODLES[1]))
+    img_1 = Image.open(os.path.join(utl.get_test_imgs_dir(), "test4.png"))
+    results = model.predict(source=img_1, save=True)
+    print(results)
 
 
 def pt_to_onnx(model_path:str, new_model_name:str):
-    torch.onnx.export(
-        model=model_path, 
-        output_names=new_model_name,
-        verbose=True,
-        )
+
+    model = torch.load(model_path)
+    print(model)
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # dummy_input = torch.randn(1, 3, 224, 224)
+
+    # torch.onnx.dynamo_export(
+    #     model_path,
+    #     dummy_input, 
+    #     ).save(new_model_name)
 
 
 
